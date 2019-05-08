@@ -1,13 +1,21 @@
 package com.matera.Funcionarios.model;
 
 public class Funcionario {
+	private int id;
 	private String nome;
 	private String sobrenome;
 	private Double salario;
 	private int numeroDeDependentes;
 	private Cargo cargo;
 	private Departamento departamento;
-	
+		
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getNome() {
 		return nome;
 	}

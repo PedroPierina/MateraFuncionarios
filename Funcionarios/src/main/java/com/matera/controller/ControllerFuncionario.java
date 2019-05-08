@@ -1,5 +1,6 @@
 package com.matera.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.matera.Funcionarios.model.Funcionario;
 import com.matera.repository.funcionarioRepository;
@@ -19,25 +20,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/funcionarios")
 public class ControllerFuncionario {
-	@Autowired
-	private funcionarioRepository funcionarios;
+	private List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+	
 
 	// Addcionar um funcionario
 	@PostMapping
-	public Funcionario adicionar(@RequestBody Funcionario funcionario) {
-		return funcionarios.save(funcionario);
+	public boolean adicionar(@RequestBody Funcionario funcionario) {
+		funcionarios.add(funcionario);
+		return true;
 	}
 
-	// Listar todos os funcionarios
+//	 Listar todos os funcionarios
 	@GetMapping
 	public List<Funcionario> listar() {
-		return funcionarios.findAll();
+		return funcionarios;
 	}
 
 	// buscar um funcionario unico
 	@GetMapping("/{id}")
-	public ResponseEntity<Funcionario> buscaUnica(@PathVariable Long id) {
-		Funcionario funcionario = funcionarios.getOne(id);
+	public ResponseEntity<Funcionario> buscaUnica(@PathVariable int id) {
+		Funcionario funcionario = funcionarios.get(id - 1);
 
 		// Errro 404
 		if (funcionario == null) {
@@ -48,15 +50,15 @@ public class ControllerFuncionario {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		Funcionario funcionario = funcionarios.getOne(id);
+	public ResponseEntity<Void> deletar(@PathVariable int id) {
+		Funcionario funcionario = funcionarios.get(id - 1);
 
 		// Errro 404
 		if (funcionario == null) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		funcionarios.delete(funcionario);
+		funcionarios.remove(funcionario);
 		
 		return ResponseEntity.noContent().build();
 	}
