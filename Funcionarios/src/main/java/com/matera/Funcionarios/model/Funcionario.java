@@ -46,11 +46,38 @@ public class Funcionario {
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
+	
+	public void setCargo2(int index) {
+		switch(index){
+		case 1:
+			this.cargo = Cargo.GERENTE;
+			break;
+		case 2:
+			this.cargo = Cargo.DIRETOR;
+			break;
+		case 3:
+			this.cargo = Cargo.PROGRAMADOR;
+			break;
+		case 4:
+			this.cargo = Cargo.ESTAGIARIO;
+		}
+		
+	}
 	public Departamento getDepartamento() {
 		return departamento;
 	}
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
+	}
+	public void setDepartamento2(int index) {
+		switch(index){
+		case 1:
+			this.departamento = Departamento.ENGENHARIA;
+			break;
+		case 2:
+			this.departamento = Departamento.SUPORTE;
+			break;
+		}
 	}
 	@Override
 	public int hashCode() {

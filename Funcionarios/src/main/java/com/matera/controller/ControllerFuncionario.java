@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/funcionarios")
 public class ControllerFuncionario {
-	private List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
 	// Addcionar um funcionario
 	@PostMapping
@@ -43,7 +42,6 @@ public class ControllerFuncionario {
 			stmt.setString(6, funcionario.getDepartamento().toString());
 
 			stmt.execute();
-			System.out.println("foi");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -73,9 +71,32 @@ public class ControllerFuncionario {
 				funcionario.setSobrenome(rs.getString("sobrenome"));
 				funcionario.setSalario(rs.getDouble("salario"));
 				funcionario.setNumeroDeDependentes(rs.getInt("numeroDeDependentes"));
-				// funcionario.setCargo(rs.getString("cargo"));
 				funcionarios.add(funcionario);
-
+				
+				String indexCargo = rs.getString("cargo");
+				
+				if(indexCargo.equalsIgnoreCase("GERENTE")){
+					funcionario.setCargo2(1);
+				}
+				if(indexCargo.equalsIgnoreCase("DIRETOR")){
+					funcionario.setCargo2(2);
+				}
+				if(indexCargo.equalsIgnoreCase("PROGRAMADOR")){
+					funcionario.setCargo2(3);
+				}
+				if(indexCargo.equalsIgnoreCase("ESTAGIARIO")){
+					funcionario.setCargo2(4);
+				}
+				
+				String indexDepartamento = rs.getString("departamento");
+				
+				if(indexDepartamento.equalsIgnoreCase("ENGENHARIA")){
+					funcionario.setDepartamento2(1);
+				}
+				if(indexDepartamento.equalsIgnoreCase("SUPORTE")){
+					funcionario.setDepartamento2(2);
+				}
+						
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,21 +112,44 @@ public class ControllerFuncionario {
 		Connection connection = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+
 		Funcionario funcionario = new Funcionario();
-		
+
 		try {
 			stmt = connection.prepareStatement("SELECT * FROM funcionario WHERE id = ?");
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
-			
-			if(rs != null && rs.next()){
-			funcionario.setId(rs.getInt("id"));
-			funcionario.setNome(rs.getString("nome"));
-			funcionario.setSobrenome(rs.getString("sobrenome"));
-			funcionario.setSalario(rs.getDouble("salario"));
-			funcionario.setNumeroDeDependentes(rs.getInt("numeroDeDependentes"));
-			// funcionario.setCargo(rs.getString("cargo"));
+
+			if (rs != null && rs.next()) {
+				funcionario.setId(rs.getInt("id"));
+				funcionario.setNome(rs.getString("nome"));
+				funcionario.setSobrenome(rs.getString("sobrenome"));
+				funcionario.setSalario(rs.getDouble("salario"));
+				funcionario.setNumeroDeDependentes(rs.getInt("numeroDeDependentes"));
+				
+				String indexCargo = rs.getString("cargo");
+				
+				if(indexCargo.equalsIgnoreCase("GERENTE")){
+					funcionario.setCargo2(1);
+				}
+				if(indexCargo.equalsIgnoreCase("DIRETOR")){
+					funcionario.setCargo2(2);
+				}
+				if(indexCargo.equalsIgnoreCase("PROGRAMADOR")){
+					funcionario.setCargo2(3);
+				}
+				if(indexCargo.equalsIgnoreCase("ESTAGIARIO")){
+					funcionario.setCargo2(4);
+				}
+				
+				String indexDepartamento = rs.getString("departamento");
+				
+				if(indexDepartamento.equalsIgnoreCase("ENGENHARIA")){
+					funcionario.setDepartamento2(1);
+				}
+				if(indexDepartamento.equalsIgnoreCase("SUPORTE")){
+					funcionario.setDepartamento2(2);
+				}
 			}
 
 		} catch (SQLException e) {
@@ -121,11 +165,11 @@ public class ControllerFuncionario {
 	public ResponseEntity<Void> deletar(@PathVariable int id) {
 		Connection connection = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
-		
+
 		try {
 			stmt = connection.prepareStatement("DELETE FROM funcionario WHERE id = ?");
 			stmt.setInt(1, id);
-			
+
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
