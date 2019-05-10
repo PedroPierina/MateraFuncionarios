@@ -3,17 +3,32 @@ package com.matera.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Funcionario {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	
+	@NotEmpty(message ="Nome não pode estar vazio/nulo")
 	private String nome;
+	
+	@NotEmpty(message ="SobreNome não pode estar vazio/nulo")
 	private String sobrenome;
+	
+	@PositiveOrZero(message = "Salario deve ser positivo")
 	private Double salario;
+	
+	@Email(message = "Email deve ser valido")
 	private String email;
+	
+	@Max(value = 100, message = "Numero deve ser menor do que 100")
 	private int numeroDeDependentes;
+	
 	private Cargo cargo;
 	private Departamento departamento;
 	
