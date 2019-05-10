@@ -1,8 +1,13 @@
 package com.matera.repository;
 
-import com.matera.Funcionarios.model.*;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
 
-public interface funcionarioRepository extends JpaRepository<Funcionario, Long>{
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.matera.model.Funcionario;
+
+@Repository 
+public interface FuncionarioRepository extends CrudRepository<Funcionario, Integer>{
 
 }
