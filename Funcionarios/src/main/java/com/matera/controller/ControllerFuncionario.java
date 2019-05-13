@@ -1,9 +1,8 @@
 package com.matera.controller;
 
-import java.util.Optional;
 
 import com.matera.model.Funcionario;
-import com.matera.repository.FuncionarioRepository;
+import com.matera.service.FuncionarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,45 +15,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/funcionarios")
 public class ControllerFuncionario {
 	@Autowired
-	private FuncionarioRepository funcionarioRepo;
-	
+	private FuncionarioService funcService;
+
 	// Addcionar um funcionario
-	@PostMapping(path="/oba")
-	public void  adicionar(@RequestBody Funcionario funcionario) {
-		funcionarioRepo.save(funcionario);
+	@PostMapping
+	public void adicionar(@RequestBody Funcionario funcionario) {
+		funcService.adicionar(funcionario);
 	}
 
 	// Listar todos os funcionarios
 	@GetMapping
 	public @ResponseBody Iterable<Funcionario> listar() {
-		return funcionarioRepo.findAll();
+		return funcService.listar();
 	}
 
 	// buscar um funcionario unico
 	@GetMapping("/{id}")
-	public Funcionario buscaUnica(@PathVariable int id) {
-		Optional<Funcionario> func = funcionarioRepo.findById(id);
-		if(func.isPresent()) {
-			Funcionario existente = func.get();
-			return existente;
-		}
-		
-		return null;
+	public ResponseEntity<Funcionario> buscaUnica(@PathVariable Integer id) {
+		 return funcService.buscaUnica(id);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar(@PathVariable int id) {
-		Optional<Funcionario> func = funcionarioRepo.findById(id);
-		if(func.isPresent()) {
-			Funcionario existente = func.get();
-			funcionarioRepo.delete(existente);
-		}
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<Funcionario> deletar(@PathVariable Integer id) {
+		return funcService.deletar(id);
 	}
-
 }

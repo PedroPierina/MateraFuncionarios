@@ -2,6 +2,7 @@ package com.matera.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -11,7 +12,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Entity
 public class Funcionario {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	@NotEmpty(message ="Nome não pode estar vazio/nulo")
@@ -77,38 +78,13 @@ public class Funcionario {
 		this.cargo = cargo;
 	}
 	
-	public void setCargo2(Integer index) {
-		switch(index){
-		case 1:
-			this.cargo = Cargo.GERENTE;
-			break;
-		case 2:
-			this.cargo = Cargo.DIRETOR;
-			break;
-		case 3:
-			this.cargo = Cargo.PROGRAMADOR;
-			break;
-		case 4:
-			this.cargo = Cargo.ESTAGIARIO;
-		}
-		
-	}
 	public Departamento getDepartamento() {
 		return departamento;
 	}
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
-	public void setDepartamento2(Integer index) {
-		switch(index){
-		case 1:
-			this.departamento = Departamento.ENGENHARIA;
-			break;
-		case 2:
-			this.departamento = Departamento.SUPORTE;
-			break;
-		}
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
