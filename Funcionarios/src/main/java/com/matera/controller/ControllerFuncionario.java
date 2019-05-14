@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matera.controller.dto.FuncionarioDTO;
+import com.matera.exceptions.CargoNotFoundException;
 import com.matera.exceptions.DepartamentoNotFoundException;
 import com.matera.model.Funcionario;
 import com.matera.service.FuncionarioService;
@@ -30,6 +31,8 @@ public class ControllerFuncionario {
 			funcService.adicionar(funcionario);
 			return ResponseEntity.ok().build();
 		} catch (DepartamentoNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		} catch (CargoNotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
