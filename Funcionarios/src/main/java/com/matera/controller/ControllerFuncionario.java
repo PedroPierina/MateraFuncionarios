@@ -1,9 +1,6 @@
 package com.matera.controller;
 
 
-import com.matera.model.Funcionario;
-import com.matera.service.FuncionarioService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.matera.controller.dto.FuncionarioDTO;
+import com.matera.exceptions.DepartamentoNotFoundException;
+import com.matera.model.Funcionario;
+import com.matera.service.FuncionarioService;
+
 @RestController
 @RequestMapping("/funcionarios")
 public class ControllerFuncionario {
@@ -23,24 +25,29 @@ public class ControllerFuncionario {
 
 	// Addcionar um funcionario
 	@PostMapping
-	public void adicionar(@RequestBody Funcionario funcionario) {
-		funcService.adicionar(funcionario);
+	public ResponseEntity<FuncionarioDTO> adicionar(@RequestBody FuncionarioDTO funcionario) {
+		try {
+			funcService.adicionar(funcionario);
+			return ResponseEntity.ok().build();
+		} catch (DepartamentoNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
-	// Listar todos os funcionarios
+//	 Listar todos os funcionarios
 	@GetMapping
-	public @ResponseBody Iterable<Funcionario> listar() {
+	public @ResponseBody Iterable<FuncionarioDTO> listar() {
 		return funcService.listar();
 	}
-
-	// buscar um funcionario unico
+//
+//	// buscar um funcionario unico
 	@GetMapping("/{id}")
-	public ResponseEntity<Funcionario> buscaUnica(@PathVariable Integer id) {
+	public ResponseEntity<FuncionarioDTO> buscaUnica(@PathVariable Integer id) {
 		 return funcService.buscaUnica(id);
 	}
-
+//
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Funcionario> deletar(@PathVariable Integer id) {
+	public ResponseEntity<FuncionarioDTO> deletar(@PathVariable Integer id) {
 		return funcService.deletar(id);
 	}
 }

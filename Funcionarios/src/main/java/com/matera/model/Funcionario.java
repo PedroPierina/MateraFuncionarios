@@ -4,12 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PositiveOrZero;
+import javax.persistence.JoinColumn;
 
 @Entity
+@Table(name ="funcionarios")
 public class Funcionario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +34,23 @@ public class Funcionario {
 	@Max(value = 100, message = "Numero deve ser menor do que 100")
 	private int numeroDeDependentes;
 	
-	private Cargo cargo;
+//	@OneToOne(cascade=CascadeType.ALL)
+//    @JoinTable(name="funcionario_departamento",
+//    joinColumns={@JoinColumn(name="funcionario_id", referencedColumnName="id")},
+//    inverseJoinColumns={@JoinColumn(name="departamento_id", referencedColumnName="id")})
+//	@ManyToOne
+//	@JoinColumn(name="departamento_id")
+	@ManyToOne
+	@JoinColumn(name="departamento_id")
 	private Departamento departamento;
+	
+//	@OneToOne(cascade=CascadeType.ALL)
+//    @JoinTable(name="funcionario_cargo",
+//    joinColumns={@JoinColumn(name="funcionario_id", referencedColumnName="id")},
+//    inverseJoinColumns={@JoinColumn(name="cargo_id", referencedColumnName="id")})
+	@ManyToOne
+	@JoinColumn(name="cargo_id")
+	private Cargo cargo;
 	
 	public String getEmail() {
 		return email;
@@ -77,78 +96,15 @@ public class Funcionario {
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
-	
 	public Departamento getDepartamento() {
 		return departamento;
 	}
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cargo == null) ? 0 : cargo.hashCode());
-		result = prime * result + ((departamento == null) ? 0 : departamento.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + numeroDeDependentes;
-		result = prime * result + ((salario == null) ? 0 : salario.hashCode());
-		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
-		return result;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Funcionario other = (Funcionario) obj;
-		if (cargo != other.cargo)
-			return false;
-		if (departamento != other.departamento)
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (numeroDeDependentes != other.numeroDeDependentes)
-			return false;
-		if (salario == null) {
-			if (other.salario != null)
-				return false;
-		} else if (!salario.equals(other.salario))
-			return false;
-		if (sobrenome == null) {
-			if (other.sobrenome != null)
-				return false;
-		} else if (!sobrenome.equals(other.sobrenome))
-			return false;
-		return true;
-	}
-	@Override
-	public String toString() {
-		return "Funcionario [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", salario=" + salario
-				+ ", email=" + email + ", numeroDeDependentes=" + numeroDeDependentes + ", cargo=" + cargo
-				+ ", departamento=" + departamento + "]";
-	}
-
-	
-	
 	
 }
+
